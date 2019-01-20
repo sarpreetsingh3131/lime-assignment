@@ -7,7 +7,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class DataLoader {
 
     public List<Employee> load() throws Exception {
         Map<String, Employee> employees = new LinkedHashMap<>();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
         String line;
 
         while ((line = bufferedReader.readLine()) != null) {
@@ -38,9 +38,9 @@ public class DataLoader {
                     employee.setName(data[1]);
                 } else {
                     employee.getTimeSlots().add(new TimeSlot(
-                            DateTimeParser.parse(data[1]),
-                            DateTimeParser.parse(data[2]),
-                            false
+                            DateTimeParser.parse(data[1]), // start
+                            DateTimeParser.parse(data[2]), // end
+                            false // time slot is not free
                     ));
                 }
             } catch (Exception e) {

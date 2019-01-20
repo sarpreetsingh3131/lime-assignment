@@ -20,7 +20,8 @@
 	        ],
 	        "meetingLength": 120,
 	        "earliestDateTime": "3/13/2015 8:00:00 AM",
-	        "latestDateTime": "3/15/2015 8:00:00 AM"
+	        "latestDateTime": "3/15/2015 8:00:00 AM",
+            "timeZone": "UTC+1"
         }
 * **Response:**
 
@@ -30,16 +31,16 @@
                 "name": "Marilyn Mckeown",
                 "timeSlots": [
                     {
-                        "startTime": "08:00",
-                        "endTime": "17:00",
                         "startDate": "2015-03-13",
-                        "endDate": "2015-03-13"
+                        "endDate": "2015-03-13",
+                        "startTime": "08:00",
+                        "endTime": "17:00"
                     },
                     {
-                        "startTime": "08:00",
-                        "endTime": "17:00",
                         "startDate": "2015-03-14",
                         "endDate": "2015-03-14"
+                        "startTime": "08:00",
+                        "endTime": "17:00"
                     },
                     ...
                 ]

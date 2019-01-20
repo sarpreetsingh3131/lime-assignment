@@ -1,6 +1,7 @@
 package lime.assignment.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Data
+@JsonPropertyOrder({"startDate", "endDate", "startTime", "endTime"})
 public class TimeSlot {
 
     @NonNull
@@ -35,12 +37,12 @@ public class TimeSlot {
         return start.toLocalDate().toString();
     }
 
-    public String getStartTime() {
-        return start.toLocalTime().toString();
-    }
-
     public String getEndDate() {
         return end.toLocalDate().toString();
+    }
+
+    public String getStartTime() {
+        return start.toLocalTime().toString();
     }
 
     public String getEndTime() {

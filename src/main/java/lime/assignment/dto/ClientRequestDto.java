@@ -24,4 +24,7 @@ public class ClientRequestDto {
 
     @NotBlank
     private String latestDateTime;
+
+    @NotBlank
+    private String timeZone;
 }

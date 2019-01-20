@@ -23,7 +23,10 @@ public class TimeSlotService {
     private DataLoader dataLoader;
 
     public List<Employee> findEmployeesWithFreeTimeSlots(ClientRequestDto dto) throws Exception {
-        verifyMeetingLength(dto.getMeetingLength());
+        if (dto.getMeetingLength() % 30 != 0) {
+            throw new Exception("meeting length should be either whole or half hour. e.g. 08.00, 08.30, 09.00, etc");
+        }
+
         List<Employee> employees = findEmployee(dto.getParticipantsIds());
         LocalDateTime earliestDateTime = DateTimeParser.parse(dto.getEarliestDateTime());
         LocalDateTime latestDateTime = DateTimeParser.parse(dto.getLatestDateTime());
@@ -40,6 +43,13 @@ public class TimeSlotService {
                 ));
                 dateTime = dateTime.plusDays(1); // increment to next day
             }
+
+            // update time zone
+            timeSlots.forEach(timeSlot -> {
+                timeSlot.setStart(DateTimeParser.updateTimeZone(dto.getTimeZone(), timeSlot.getStart()));
+                timeSlot.setEnd(DateTimeParser.updateTimeZone(dto.getTimeZone(), timeSlot.getEnd()));
+            });
+
             employee.setTimeSlots(timeSlots);
         }
         return employees;
@@ -119,7 +129,6 @@ public class TimeSlotService {
                 .collect(Collectors.toList());
     }
 
-
     List<Employee> findEmployee(List<String> participantsIds) throws Exception {
         List<Employee> employees = dataLoader.load()
                 .stream()
@@ -130,11 +139,5 @@ public class TimeSlotService {
             throw new Exception("cannot find all the employees");
         }
         return employees;
-    }
-
-    void verifyMeetingLength(int meetingLength) throws Exception {
-        if (meetingLength % 30 != 0) {
-            throw new Exception("meeting length should be either whole or half hour. e.g. 08.00, 08.30, 09.00, etc");
-        }
     }
 }
